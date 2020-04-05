@@ -1,15 +1,16 @@
-using System.Collections.Generic;
-using System.Data;
 using FIAP.Investment.Domain.Investments;
+using System.Collections.Generic;
 
-namespace FIAP.Investment.Repositories {
-  public interface IInvestmentRepository : IRepository<int, InvestmentDetails> {
-    void CreateSQLiteBase ();
-    void CreateInvestmentTable ();
+namespace FIAP.Investment.Repositories
+{
+    public interface IInvestmentRepository : IRepository<int, InvestmentDetails>
+    {
+        void CreateSQLiteBase();
 
-    IList<InvestmentDetails> ListAll ();
+        void CreateInvestmentTable();
 
-    IList<InvestmentDetails> ListByType (InvestmentType type);
+        IList<InvestmentDetails> ListAll();
 
-  }
+        IList<InvestmentDetails> ListByType(InvestmentType type);
+    }
 }

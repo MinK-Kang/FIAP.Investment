@@ -1,53 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FIAP.Investment.Domain.Investments;
+﻿using FIAP.Investment.Domain.Investments;
 using FIAP.Investment.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
-namespace FIAP.Fase5.Controllers {
+namespace FIAP.Fase5.Controllers
+{
     [ApiController]
-    [Route ("[controller]")]
-    public class InvestmentController : ControllerBase {
+    [Route("[controller]")]
+    public class InvestmentController : ControllerBase
+    {
         private readonly ILogger<InvestmentController> _logger;
         private readonly IInvestmentRepository investmentRepository;
 
-        public InvestmentController (
+        public InvestmentController(
             ILogger<InvestmentController> logger,
-            IInvestmentRepository investmentRepository) {
+            IInvestmentRepository investmentRepository)
+        {
             _logger = logger;
             this.investmentRepository = investmentRepository;
         }
 
         [HttpGet]
-        [Route ("{id}")]
-        public InvestmentDetails Get (int id) {
-            return investmentRepository.Get (id);
+        [Route("{id}")]
+        public InvestmentDetails Get(int id)
+        {
+            return investmentRepository.Get(id);
         }
 
         [HttpGet]
-        [Route ("ListByType/{type}")]
-        public IList<InvestmentDetails> ListByType (InvestmentType type) {
-            return investmentRepository.ListByType (type);
+        [Route("ListByType/{type}")]
+        public IList<InvestmentDetails> ListByType(InvestmentType type)
+        {
+            return investmentRepository.ListByType(type);
         }
 
         [HttpGet]
-        [Route ("ListAll/{type}")]
-        public IList<InvestmentDetails> ListAll (InvestmentType type) {
-            return investmentRepository.ListAll ();
+        [Route("ListAll/{type}")]
+        public IList<InvestmentDetails> ListAll(InvestmentType type)
+        {
+            return investmentRepository.ListAll();
         }
 
         [HttpDelete]
-        [Route ("{id}")]
-        public void Delete (int id) {
-            investmentRepository.Delete (id);
+        [Route("{id}")]
+        public void Delete(int id)
+        {
+            investmentRepository.Delete(id);
         }
 
         [HttpPost]
-        public void Insert (InvestmentDetails item) {
-            investmentRepository.Insert (item);
+        public void Insert(InvestmentDetails item)
+        {
+            investmentRepository.Insert(item);
         }
     }
 }

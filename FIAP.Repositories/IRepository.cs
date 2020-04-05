@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Data;
-
-namespace FIAP.Investment.Repositories
+﻿namespace FIAP.Investment.Repositories
 {
-  public interface IRepository<TId, TEntity>
-  {
-    void Update(TEntity entity);
+    public interface IRepository<TId, TEntity>
+    {
+        void Update(TEntity entity);
 
-    void Insert(TEntity entity);
+        void Insert(TEntity entity);
 
-    void Delete(TId entity);
+        void Delete(TId entity);
 
-    TEntity Get(TId id);
-  }
+        TEntity Get(TId id);
+    }
 }
