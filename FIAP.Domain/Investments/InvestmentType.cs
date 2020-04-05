@@ -1,4 +1,4 @@
-namespace FIAP.Investment.Domain.Investments
+namespace FIAP.Domain.Investments
 {
     public enum InvestmentType
     {

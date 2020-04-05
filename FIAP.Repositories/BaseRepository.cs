@@ -1,5 +1,4 @@
-﻿using FIAP.Investment.Repositories;
-using System;
+﻿using System;
 using System.Data.SQLite;
 
 namespace FIAP.Repositories

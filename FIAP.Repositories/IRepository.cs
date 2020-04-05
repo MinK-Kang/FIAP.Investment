@@ -1,4 +1,4 @@
-﻿namespace FIAP.Investment.Repositories
+﻿namespace FIAP.Repositories
 {
     public interface IRepository<TId, TEntity>
     {

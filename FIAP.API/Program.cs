@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace FIAP.Fase5
+namespace FIAP.API
 {
     public class Program
     {

@@ -1,11 +1,10 @@
-﻿using FIAP.Investment.Domain.Investments;
-using FIAP.Repositories;
+﻿using FIAP.Domain.Investments;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 
-namespace FIAP.Investment.Repositories
+namespace FIAP.Repositories
 {
     public class InvestmentRepository : BaseRepository<int, InvestmentDetails>, IInvestmentRepository
     {
@@ -112,7 +111,7 @@ namespace FIAP.Investment.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -140,7 +139,7 @@ namespace FIAP.Investment.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -156,7 +155,7 @@ namespace FIAP.Investment.Repositories
                     return FormatReaderToList(cmd.ExecuteReader());
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -174,7 +173,7 @@ namespace FIAP.Investment.Repositories
                     return FormatReaderToList(cmd.ExecuteReader());
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -201,7 +200,7 @@ namespace FIAP.Investment.Repositories
                 }
                 return resultList;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

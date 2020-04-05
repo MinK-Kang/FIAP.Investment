@@ -1,7 +1,7 @@
-using FIAP.Investment.Domain.Investments;
+using FIAP.Domain.Investments;
 using System.Collections.Generic;
 
-namespace FIAP.Investment.Repositories
+namespace FIAP.Repositories
 {
     public interface IInvestmentRepository : IRepository<int, InvestmentDetails>
     {

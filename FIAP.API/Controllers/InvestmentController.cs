@@ -1,10 +1,10 @@
-﻿using FIAP.Investment.Domain.Investments;
-using FIAP.Investment.Repositories;
+﻿using FIAP.Domain.Investments;
+using FIAP.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-namespace FIAP.Fase5.Controllers
+namespace FIAP.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

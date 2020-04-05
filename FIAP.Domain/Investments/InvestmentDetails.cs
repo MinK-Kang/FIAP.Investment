@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FIAP.Investment.Domain.Investments
+namespace FIAP.Domain.Investments
 {
     public class InvestmentDetails
     {
