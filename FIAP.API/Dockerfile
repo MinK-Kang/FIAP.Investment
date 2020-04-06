@@ -6,6 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
 COPY ["FIAP.API/FIAP.API.csproj", "FIAP.API/"]
+COPY ["FIAP.Repositories/FIAP.Repositories.csproj", "FIAP.Repositories/"]
+COPY ["FIAP.Domain/FIAP.Domain.csproj", "FIAP.Domain/"]
 RUN dotnet restore "FIAP.API/FIAP.API.csproj"
 COPY . .
 WORKDIR "/src/FIAP.API"

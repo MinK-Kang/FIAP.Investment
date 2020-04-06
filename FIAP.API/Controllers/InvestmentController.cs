@@ -54,5 +54,19 @@ namespace FIAP.API.Controllers
         {
             investmentRepository.Insert(item);
         }
+
+        [HttpGet]
+        [Route("CreateTable")]
+        public void CreateTable()
+        {
+            investmentRepository.CreateInvestmentTable();
+        }
+
+        [HttpGet]
+        [Route("CreateSqliteBase")]
+        public void CreateSqliteBase()
+        {
+            investmentRepository.CreateSQLiteBase();
+        }
     }
 }
