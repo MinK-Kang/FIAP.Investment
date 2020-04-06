@@ -38,14 +38,24 @@ namespace FIAP.Repositories
             }
         }
 
-        public override void Delete(int Id)
+        public override void CreateOrUpdate(InvestmentDetails entity)
         {
             try
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = $"DELETE FROM {tableName} WHERE Id=@Id ";
-                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.CommandText = $"INSERT OR REPLACE INTO {tableName}(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType)" +
+                      $"VALUES (@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
+
+                    cmd.Parameters.AddWithValue("@Id", entity.Id);
+                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
+                    cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
+                    cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
+                    cmd.Parameters.AddWithValue("@Name", entity.Name);
+                    cmd.Parameters.AddWithValue("@Description", entity.Description);
+                    cmd.Parameters.AddWithValue("@Issuer", entity.Issuer);
+                    cmd.Parameters.AddWithValue("@MinimumRedemptionPeriod", entity.MinimumRedemptionPeriod);
+
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -90,66 +100,6 @@ namespace FIAP.Repositories
             }
         }
 
-        public override void Insert(InvestmentDetails entity)
-        {
-            try
-            {
-                using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = $"INSERT INTO {tableName}" +
-                      $"(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType) " +
-                      $"values" +
-                      $"(@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
-
-                    cmd.Parameters.AddWithValue("@Id", entity.Id);
-                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
-                    cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
-                    cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
-                    cmd.Parameters.AddWithValue("@Name", entity.Name);
-                    cmd.Parameters.AddWithValue("@Description", entity.Description);
-                    cmd.Parameters.AddWithValue("@Issuer", entity.Issuer);
-                    cmd.Parameters.AddWithValue("@MinimumRedemptionPeriod", entity.MinimumInvestment);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public override void Update(InvestmentDetails entity)
-        {
-            try
-            {
-                using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = $"UPDATE {tableName}" +
-                      $"SET MinimumInvestment=@MinimumInvestment, " +
-                      $"IncomeTax=@IncomeTax, Name=@Name, Description=@Description, " +
-                      $"Issuer=@Issuer, MinimumRedemptionPeriod=@MinimumRedemptionPeriod " +
-                      $"InvestmentType=@InvestmentType" +
-                      $"WHERE Id=@Id";
-
-                    cmd.Parameters.AddWithValue("@Id", entity.Id);
-                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
-                    cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
-                    cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
-                    cmd.Parameters.AddWithValue("@Name", entity.Name);
-                    cmd.Parameters.AddWithValue("@Description", entity.Description);
-                    cmd.Parameters.AddWithValue("@Issuer", entity.Issuer);
-                    cmd.Parameters.AddWithValue("@MinimumRedemptionPeriod", entity.MinimumInvestment);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public IList<InvestmentDetails> ListAll()
         {
             try
@@ -184,6 +134,23 @@ namespace FIAP.Repositories
             }
         }
 
+        public override void Delete(int Id)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = $"DELETE FROM {tableName} WHERE Id=@Id ";
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private static IList<InvestmentDetails> FormatReaderToList(SQLiteDataReader reader)
         {
             try
@@ -204,33 +171,6 @@ namespace FIAP.Repositories
                     });
                 }
                 return resultList;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public override void CreateOrUpdate(InvestmentDetails entity)
-        {
-            try
-            {
-                using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = $"INSERT OR REPLACE INTO {tableName}(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType)" +
-                      $"VALUES (@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
-
-                    cmd.Parameters.AddWithValue("@Id", entity.Id);
-                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
-                    cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
-                    cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
-                    cmd.Parameters.AddWithValue("@Name", entity.Name);
-                    cmd.Parameters.AddWithValue("@Description", entity.Description);
-                    cmd.Parameters.AddWithValue("@Issuer", entity.Issuer);
-                    cmd.Parameters.AddWithValue("@MinimumRedemptionPeriod", entity.MinimumRedemptionPeriod);
-
-                    cmd.ExecuteNonQuery();
-                }
             }
             catch (Exception ex)
             {

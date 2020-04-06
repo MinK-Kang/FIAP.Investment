@@ -18,10 +18,6 @@ namespace FIAP.Repositories
 
         public abstract TEntity Get(TId id);
 
-        public abstract void Insert(TEntity entity);
-
         public abstract void CreateOrUpdate(TEntity entity);
-
-        public abstract void Update(TEntity entity);
     }
 }
