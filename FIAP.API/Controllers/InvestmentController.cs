@@ -36,8 +36,8 @@ namespace FIAP.API.Controllers
         }
 
         [HttpGet]
-        [Route("ListAll/{type}")]
-        public IList<InvestmentDetails> ListAll(InvestmentType type)
+        [Route("ListAll")]
+        public IList<InvestmentDetails> ListAll()
         {
             return investmentRepository.ListAll();
         }
@@ -50,9 +50,9 @@ namespace FIAP.API.Controllers
         }
 
         [HttpPost]
-        public void Insert(InvestmentDetails item)
+        public void CreateOrUpdate(InvestmentDetails item)
         {
-            investmentRepository.Insert(item);
+            investmentRepository.CreateOrUpdate(item);
         }
 
         [HttpGet]

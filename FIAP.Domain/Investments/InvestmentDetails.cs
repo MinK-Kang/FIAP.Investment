@@ -12,7 +12,7 @@ namespace FIAP.Domain.Investments
         /// <summary>
         /// Investimento mínimo
         /// </summary>
-        public decimal MinimumInvestment { get; set; }
+        public double MinimumInvestment { get; set; }
 
         /// <summary>
         /// Imposto de renda

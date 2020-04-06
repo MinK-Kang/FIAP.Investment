@@ -28,8 +28,8 @@ namespace FIAP.Repositories
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = $@"CREATE TABLE IF NOT EXIST Investment
-                                        (Id int, MinimumInvestment decimal(10,2), IncomeTax(4,2), Name varchar(80), Description varchar(80), Issuer varchar(50), MinimumRedemptionPeriod text)";
+                    cmd.CommandText = $@"CREATE TABLE IF NOT EXISTS INVESTMENT (Id INTEGER PRIMARY KEY, InvestmentType INTERGER, MinimumInvestment REAL, IncomeTax REAL, Name varchar(80), Description varchar(80), Issuer varchar(50), MinimumRedemptionPeriod text)";
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -44,7 +44,8 @@ namespace FIAP.Repositories
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = $"DELETE FROM {tableName} WHERE Id = {Id}";
+                    cmd.CommandText = $"DELETE FROM {tableName} WHERE Id=@Id ";
+                    cmd.Parameters.AddWithValue("@Id", Id);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -75,7 +76,7 @@ namespace FIAP.Repositories
                             Description = reader.GetFieldValue<string>("Description"),
                             Issuer = reader.GetFieldValue<string>("Issuer"),
                             Name = reader.GetFieldValue<string>("Name"),
-                            MinimumInvestment = reader.GetFieldValue<decimal>("MinimumInvestment"),
+                            MinimumInvestment = reader.GetFieldValue<double>("MinimumInvestment"),
                             MinimumRedemptionPeriod = reader.GetFieldValue<DateTime>("MinimumRedemptionPeriod")
                         };
                     }
@@ -96,11 +97,12 @@ namespace FIAP.Repositories
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = $"INSERT INTO {tableName}" +
-                      $"(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod) " +
+                      $"(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType) " +
                       $"values" +
-                      $"(@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod)";
+                      $"(@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
 
                     cmd.Parameters.AddWithValue("@Id", entity.Id);
+                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
                     cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
                     cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
                     cmd.Parameters.AddWithValue("@Name", entity.Name);
@@ -124,11 +126,14 @@ namespace FIAP.Repositories
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = $"UPDATE {tableName}" +
-                      $"SET Id=@Id, MinimumInvestment=@MinimumInvestment, " +
+                      $"SET MinimumInvestment=@MinimumInvestment, " +
                       $"IncomeTax=@IncomeTax, Name=@Name, Description=@Description, " +
-                      $"Issuer=@Issuer, MinimumRedemptionPeriod=@MinimumRedemptionPeriod ";
+                      $"Issuer=@Issuer, MinimumRedemptionPeriod=@MinimumRedemptionPeriod " +
+                      $"InvestmentType=@InvestmentType" +
+                      $"WHERE Id=@Id";
 
                     cmd.Parameters.AddWithValue("@Id", entity.Id);
+                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
                     cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
                     cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
                     cmd.Parameters.AddWithValue("@Name", entity.Name);
@@ -151,7 +156,7 @@ namespace FIAP.Repositories
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM tableName";
+                    cmd.CommandText = $"SELECT * FROM {tableName}";
                     return FormatReaderToList(cmd.ExecuteReader());
                 }
             }
@@ -167,7 +172,7 @@ namespace FIAP.Repositories
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM tableName WHERE InvestmentType = @Type";
+                    cmd.CommandText = $"SELECT * FROM {tableName} WHERE InvestmentType = @Type";
                     cmd.Parameters.AddWithValue("@Type", type);
 
                     return FormatReaderToList(cmd.ExecuteReader());
@@ -188,17 +193,44 @@ namespace FIAP.Repositories
                 {
                     resultList.Add(new InvestmentDetails
                     {
-                        Id = reader.GetFieldValue<int>("Id"),
-                        InvestmentType = (InvestmentType)reader.GetFieldValue<int>("InvestmentType"),
+                        Id = (int)reader.GetFieldValue<Int64>("Id"),
+                        InvestmentType = (InvestmentType)reader.GetFieldValue<Int64>("InvestmentType"),
                         IncomeTax = reader.GetFieldValue<double>("IncomeTax"),
                         Description = reader.GetFieldValue<string>("Description"),
                         Issuer = reader.GetFieldValue<string>("Issuer"),
                         Name = reader.GetFieldValue<string>("Name"),
-                        MinimumInvestment = reader.GetFieldValue<decimal>("MinimumInvestment"),
-                        MinimumRedemptionPeriod = reader.GetFieldValue<DateTime>("MinimumRedemptionPeriod")
+                        MinimumInvestment = reader.GetFieldValue<double>("MinimumInvestment"),
+                        MinimumRedemptionPeriod = DateTime.Parse(reader.GetFieldValue<string>("MinimumRedemptionPeriod"))
                     });
                 }
                 return resultList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public override void CreateOrUpdate(InvestmentDetails entity)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = $"INSERT OR REPLACE INTO {tableName}(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType)" +
+                      $"VALUES (@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
+
+                    cmd.Parameters.AddWithValue("@Id", entity.Id);
+                    cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
+                    cmd.Parameters.AddWithValue("@MinimumInvestment", entity.MinimumInvestment);
+                    cmd.Parameters.AddWithValue("@IncomeTax", entity.IncomeTax);
+                    cmd.Parameters.AddWithValue("@Name", entity.Name);
+                    cmd.Parameters.AddWithValue("@Description", entity.Description);
+                    cmd.Parameters.AddWithValue("@Issuer", entity.Issuer);
+                    cmd.Parameters.AddWithValue("@MinimumRedemptionPeriod", entity.MinimumRedemptionPeriod);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {

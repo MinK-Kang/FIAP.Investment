@@ -6,6 +6,8 @@
 
         void Insert(TEntity entity);
 
+        void CreateOrUpdate(TEntity entity);
+
         void Delete(TId entity);
 
         TEntity Get(TId id);

@@ -20,6 +20,8 @@ namespace FIAP.Repositories
 
         public abstract void Insert(TEntity entity);
 
+        public abstract void CreateOrUpdate(TEntity entity);
+
         public abstract void Update(TEntity entity);
     }
 }
