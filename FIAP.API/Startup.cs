@@ -1,4 +1,5 @@
 using FIAP.Repositories;
+using FIAP.Services.Accounts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,9 @@ namespace FIAP.API
             });
 
             services.AddScoped<IInvestmentRepository, InvestmentRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IStatementEntryRepository, StatementEntryRepository>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

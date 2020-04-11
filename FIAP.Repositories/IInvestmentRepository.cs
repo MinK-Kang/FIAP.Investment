@@ -5,8 +5,6 @@ namespace FIAP.Repositories
 {
     public interface IInvestmentRepository : IRepository<int, InvestmentDetails>
     {
-        void CreateSQLiteBase();
-
         void CreateInvestmentTable();
 
         IList<InvestmentDetails> ListAll();

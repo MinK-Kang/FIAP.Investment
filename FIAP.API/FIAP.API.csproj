@@ -13,5 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FIAP.Repositories\FIAP.Repositories.csproj" />
+    <ProjectReference Include="..\FIAP.Services\FIAP.Services.csproj" />
   </ItemGroup>
 </Project>

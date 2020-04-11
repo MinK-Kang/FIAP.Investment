@@ -1,4 +1,5 @@
 ﻿using FIAP.Domain.Investments;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,18 +10,6 @@ namespace FIAP.Repositories
     public class InvestmentRepository : BaseRepository<int, InvestmentDetails>, IInvestmentRepository
     {
         private const string tableName = "Investment";
-
-        public void CreateSQLiteBase()
-        {
-            try
-            {
-                SQLiteConnection.CreateFile($@"{Environment.CurrentDirectory}\Investment.sqlite");
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public void CreateInvestmentTable()
         {
@@ -45,7 +34,7 @@ namespace FIAP.Repositories
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = $"INSERT OR REPLACE INTO {tableName}(Id, MinimumInvestment, IncomeTax, Name, Description, Issuer, MinimumRedemptionPeriod, InvestmentType)" +
-                      $"VALUES (@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
+                        $"VALUES (@Id, @MinimumInvestment, @IncomeTax, @Name, @Description, @Issuer, @MinimumRedemptionPeriod, @InvestmentType)";
 
                     cmd.Parameters.AddWithValue("@Id", entity.Id);
                     cmd.Parameters.AddWithValue("@InvestmentType", entity.InvestmentType);
@@ -58,6 +47,7 @@ namespace FIAP.Repositories
 
                     cmd.ExecuteNonQuery();
                 }
+
             }
             catch (Exception ex)
             {
@@ -104,6 +94,7 @@ namespace FIAP.Repositories
         {
             try
             {
+
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = $"SELECT * FROM {tableName}";
@@ -151,7 +142,7 @@ namespace FIAP.Repositories
             }
         }
 
-        private static IList<InvestmentDetails> FormatReaderToList(SQLiteDataReader reader)
+        private static IList<InvestmentDetails> FormatReaderToList(SqliteDataReader reader)
         {
             try
             {

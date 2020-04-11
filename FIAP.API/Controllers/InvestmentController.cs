@@ -1,5 +1,6 @@
 ﻿using FIAP.Domain.Investments;
 using FIAP.Repositories;
+using FIAP.Repositories.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 namespace FIAP.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("investment")]
     public class InvestmentController : ControllerBase
     {
         private readonly ILogger<InvestmentController> _logger;
@@ -66,7 +67,7 @@ namespace FIAP.API.Controllers
         [Route("CreateSqliteBase")]
         public void CreateSqliteBase()
         {
-            investmentRepository.CreateSQLiteBase();
+            Configuration.CreateSQLiteBase();
         }
     }
 }
