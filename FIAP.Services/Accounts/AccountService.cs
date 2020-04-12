@@ -1,16 +1,15 @@
 ﻿using FIAP.Domain.Accounts;
 using FIAP.Repositories;
 using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace FIAP.Services.Accounts
 {
-    public class AccountService: IAccountService
+    public class AccountService : IAccountService
     {
         private IAccountRepository accountRepository;
         private IStatementEntryRepository statementEntryRepository;
 
-        public AccountService (IAccountRepository accountRepository,
+        public AccountService(IAccountRepository accountRepository,
                                 IStatementEntryRepository statementEntryRepository)
         {
             this.accountRepository = accountRepository;
@@ -19,7 +18,6 @@ namespace FIAP.Services.Accounts
 
         public void Transfer(Account fromAccount, Account toAccount, double value)
         {
-
             if (fromAccount.Balance < value)
             {
                 throw new Exception("Saldo Insuficiente");
@@ -41,7 +39,6 @@ namespace FIAP.Services.Accounts
 
             DoAccountOperation(fromAccount, outStatementEntry);
             DoAccountOperation(toAccount, inStatementEntry);
-
         }
 
         private void DoAccountOperation(Account account, StatementEntry statementEntry)
@@ -54,6 +51,5 @@ namespace FIAP.Services.Accounts
             statementEntryRepository.CreateOrUpdate(statementEntry);
             accountRepository.CreateOrUpdate(account);
         }
-
     }
 }

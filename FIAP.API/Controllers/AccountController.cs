@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FIAP.Domain.Accounts;
+﻿using FIAP.Domain.Accounts;
 using FIAP.Repositories;
 using FIAP.Services.Accounts;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +56,6 @@ namespace FIAP.API.Controllers
             Account toAccount = accountRepository.Get(transfer.ToAccountId);
 
             accountService.Transfer(fromAccount, toAccount, transfer.Value);
-            
         }
 
         [HttpGet]
@@ -70,7 +65,5 @@ namespace FIAP.API.Controllers
             accountRepository.CreateAccountTable();
             statementEntryRepository.CreateStatementEntryTable();
         }
-
     }
-
 }

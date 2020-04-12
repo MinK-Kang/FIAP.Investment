@@ -1,7 +1,4 @@
 ﻿using FIAP.Domain.Accounts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FIAP.Services.Accounts
 {
